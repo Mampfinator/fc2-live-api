@@ -13,7 +13,9 @@ If you only want to fetch a handful of users, you can do that manually:
 ```ts
 const { FC2Client } = require("fc2-live-api");
 
-const client = new FC2Client();
+const client = new FC2Client({
+    noEvents: true, // tells the client to not generate client events
+}); 
 
 client.channels.fetchMember(CHANNEL_ID_HERE, {channel: true})
     .then(console.log);
@@ -22,24 +24,25 @@ client.channels.fetchMember(CHANNEL_ID_HERE, {channel: true})
 If you need to check more users (and you can live with up to 30 seconds delay between a channel changing state and the event being emitted), it's recommended you use the event generator instead:
 
 ```ts
-(async () => {
-    await client.channels.start(); // starts the event generator
+client.on("channel:live", async (member) => {
+    console.log(`${member.name} went live!`);
+});
 
-    client.on("channel:live", async (member) => {
-        if (!TRACKED_MEMBERS.has(member.channelId)) return;
-
-        // do what you need to do here
-    });
-
-    client.on("channel:offline", async (member) => {
-        if (!TRACKED_MEMBERS.has(member.channelId)) return;
-
-        // do what you need to do here
-    });
-})();
+client.on("channel:offline", async (member) => {
+    console.log(`${member.name} went offline!`);
+});
 ```
 
 It uses EventEmitter3 under the hood so all events are fully typed. All `channel:` events are also emitted without the prefix on `FC2Client#channels`.
+
+If you need to fetch all currently live channels, use `ChannelManager#fetchAll`. Note that currently, this returns the object as returned from the API.
+
+```ts
+client.channels.fetchAll(true)
+    .then(({channel: channels} /* "channel" on the returned object refers to an array of channel objects */ ) => {
+        console.log(`There are currently ${channels.length} adult channels live.`);
+    });
+```
 
 Support for comments may be added soon.
 
