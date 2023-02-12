@@ -1,15 +1,17 @@
 import EventEmitter3 from "eventemitter3";
 import { err, ok, Result } from "neverthrow";
 import { request } from "undici";
-import { FC2ApiError } from "./FC2ApiError";
+import { ZodError } from "zod";
+import { FC2ApiError, FC2ClientError, FC2Error } from "./errors";
 import { FC2Client } from "./FC2Client";
-import { APIChannelListResponse, APIMember, APIResponse, FC2Member } from "./types";
+import { MEMBER_RESPONSE_SCHEMA } from "./schemas";
+import { APIChannelListResponse, APIMember, APIWatchability, FC2Member, MemberResponse, MemberResponseErr, MemberResponseOk } from "./types";
 import { makePath, toNumber, WATCHABILITY_LOOKUP } from "./util";
 
 export type ChannelEvents = {
     live: (member: FC2Member) => void;
     offline: (member: FC2Member) => void;
-    error: (error: FC2ApiError) => void;
+    error: (error: FC2Error) => void;
     ready: () => void;
 }
 
@@ -24,9 +26,6 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
         private readonly client: FC2Client
     ) {
         super();
-
-        this.start();
-
         this.on("live", member => {
             this.client.emit("channel:live", member);
         });
@@ -47,23 +46,33 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
     /**
      * @param id the channel ID of the member you want to fetch. For, say, `https://live.fc2.com/49286435/`, that's "49286435".
      */
-    public async fetchMember<TChannel extends boolean, TProfile extends boolean>(id: string, options: {channel?: TChannel, profile?: TProfile}): Promise<Result<FC2Member<TChannel, TProfile>, FC2ApiError>> {
+    public async fetchMember<TChannel extends boolean, TProfile extends boolean>(id: string, options: {channel?: TChannel, profile?: TProfile}): Promise<Result<FC2Member<TChannel, TProfile>, FC2Error>> {
         const url = makePath("api", "memberApi.php");
         
-        const query = Object.fromEntries([["channel", toNumber(options.channel)], ["profile", toNumber(options.profile)]].filter(([_, value]) => value)); 
+        const query = Object.fromEntries([
+            ["channel", toNumber(options.channel)], 
+            ["profile", toNumber(options.profile)]
+        ].filter(([_, value]) => value)); 
 
-        const response: APIResponse<APIMember<TChannel, TProfile>> = await request(url, {
+        const response = await request(url, {
             query: {...query, streamid: id},
         })
-        .then(res => res.body.json());
+        .then(res => res.body.json())
+        .then(body => MEMBER_RESPONSE_SCHEMA.safeParse(body));
 
-        const {status, data: member} = response; 
+        if (!response.success) {
+            return err(new FC2ClientError<ZodError>("Zod validation failed", response.error));
+        }
+
+        const {data} = response;
+
+        const { status } = data; 
         if (status !== 1) {
-            const { msg } = response;
+            const { msg } = data as MemberResponseErr;
             return err(new FC2ApiError(status, msg, url));
         }
 
-        const {profile_data, channel_data} = member;
+        const {profile_data, channel_data} = (data as MemberResponseOk).data;
 
         const entries = [];
 
@@ -80,7 +89,7 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
                 fc2Id,
                 name, 
                 info, 
-                age,
+                age: Number(age),
                 sex, 
                 icon,
                 image,
@@ -116,16 +125,16 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
                 userId, 
                 title, 
                 info,
-                categoryId,
+                categoryId: Number(categoryId),
                 categoryName,
                 adult: Boolean(adult),
                 oneOnOne: Boolean(twoshot),
-                loginRequired: WATCHABILITY_LOOKUP[login_only],
+                loginRequired: WATCHABILITY_LOOKUP[login_only as APIWatchability],
                 isLive: Boolean(is_publish),
                 viewers: count,
                 image,
                 isApp: Boolean(is_app), 
-                fee,
+                fee: Boolean(fee),
                 interval,
                 start: new Date(start),
             }
