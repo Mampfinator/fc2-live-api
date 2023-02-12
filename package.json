@@ -1,11 +1,13 @@
 {
   "name": "fc2-live-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "FC2 Live API Client library.",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "test": "npx ts-mocha 'test/**/*.spec.ts' --recursive"
+    "test": "npx ts-mocha 'test/**/*.spec.ts' --recursive",
+    "format:check": "npx prettier --check ./{src,test}/**/*.ts",
+    "format:write": "npx prettier --write ./{src,test}/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "@types/sinon": "^10.0.13",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
+    "prettier": "^2.8.4",
     "sinon": "^15.0.1",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
