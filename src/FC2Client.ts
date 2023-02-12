@@ -8,7 +8,7 @@ export type ClientEvents = {
     "channel:offline": (member: FC2Member) => void;
     error: (error: FC2Error) => void;
     ready: () => void;
-}
+};
 
 export interface FC2ClientOptions {
     /**
@@ -17,7 +17,7 @@ export interface FC2ClientOptions {
     token?: string;
 
     /**
-     * If set, skips starting the channel events generator. 
+     * If set, skips starting the channel events generator.
      * Can be manually started with `FC2Client#start` or `ChannelManager#start`.
      */
     noEvents?: boolean;
@@ -27,9 +27,7 @@ export class FC2Client extends EventEmitter3<ClientEvents> {
     public readonly channels = new ChannelManager(this);
     public readonly token?: string;
 
-    constructor(
-        options?: FC2ClientOptions,
-    ) {
+    constructor(options?: FC2ClientOptions) {
         super();
 
         this.token = options?.token;
@@ -45,4 +43,3 @@ export class FC2Client extends EventEmitter3<ClientEvents> {
         return this.channels.start();
     }
 }
-

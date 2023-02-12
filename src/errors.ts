@@ -9,7 +9,7 @@ export class FC2ApiError extends Error {
     constructor(
         public readonly code: number,
         public readonly reason: string,
-        public readonly endpoint: string,
+        public readonly endpoint: string
     ) {
         super(`[${code}]: ${reason ?? "No reason provided."}`);
     }
@@ -21,7 +21,7 @@ export class FC2ApiError extends Error {
 export class FC2ClientError<TError = any> extends Error {
     constructor(
         public readonly reason: string,
-        public readonly details: TError,
+        public readonly details: TError
     ) {
         super(reason);
     }

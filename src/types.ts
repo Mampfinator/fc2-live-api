@@ -1,5 +1,12 @@
 import { z } from "zod";
-import { CHANNEL_LIST_SCHEMA, CHANNEL_SCHEMA, MEMBER_RESPONSE_ERROR_SCHEMA, MEMBER_RESPONSE_OK_SCHEMA, MEMBER_RESPONSE_SCHEMA, MEMBER_SCHEMA } from "./schemas";
+import {
+    CHANNEL_LIST_SCHEMA,
+    CHANNEL_SCHEMA,
+    MEMBER_RESPONSE_ERROR_SCHEMA,
+    MEMBER_RESPONSE_OK_SCHEMA,
+    MEMBER_RESPONSE_SCHEMA,
+    MEMBER_SCHEMA,
+} from "./schemas";
 
 export enum APIWatchability {
     Unlimited = 0,
@@ -18,7 +25,6 @@ export type MemberResponse = z.infer<typeof MEMBER_RESPONSE_SCHEMA>;
 export type MemberResponseOk = z.infer<typeof MEMBER_RESPONSE_OK_SCHEMA>;
 export type MemberResponseErr = z.infer<typeof MEMBER_RESPONSE_ERROR_SCHEMA>;
 
-
 export type APIChannelListEntry = z.infer<typeof CHANNEL_SCHEMA>;
 export type APIChannelListResponse = z.infer<typeof CHANNEL_LIST_SCHEMA>;
 
@@ -32,22 +38,23 @@ export interface APIMember<TChannel extends boolean, TProfile extends boolean> {
     profile_data: TProfile extends true ? APIProfileData : undefined;
 }
 
-
 // Parsed types.
-
 
 /**
  * Represents a member from /memberApi.php.
  */
-export interface FC2Member<TChannel extends boolean = true, TProfile extends boolean = true> {
+export interface FC2Member<
+    TChannel extends boolean = true,
+    TProfile extends boolean = true
+> {
     channel: TChannel extends true ? Channel : undefined;
     profile: TProfile extends true ? Profile : undefined;
 }
 
 export enum Watchability {
     NoLoginRequired = "Unlimited",
-    LoginRequired = "LoginRequired", 
-    PointsRequired = "PointsRequired"
+    LoginRequired = "LoginRequired",
+    PointsRequired = "PointsRequired",
 }
 
 export enum StreamChatType {
@@ -82,7 +89,7 @@ export interface Profile {
     name: string;
     info: string;
     age: number;
-    sex: string; 
+    sex: string;
     icon: string;
     image: string;
 }

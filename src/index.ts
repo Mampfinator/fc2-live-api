@@ -1,13 +1,6 @@
-export {
-    FC2Client,
-    FC2ClientOptions,
-    ClientEvents, 
-} from "./FC2Client"
+export { FC2Client, FC2ClientOptions, ClientEvents } from "./FC2Client";
 
-export {
-    ChannelEvents,
-    ChannelManager,
-} from "./ChannelManager"
+export { ChannelEvents, ChannelManager } from "./ChannelManager";
 
 export {
     FC2ApiError,
@@ -16,7 +9,4 @@ export {
     FC2APITypeError,
 } from "./errors";
 
-export {
-    APIChannelListResponse,
-    FC2Member
-} from "./types";
+export { APIChannelListResponse, FC2Member } from "./types";

@@ -1,5 +1,10 @@
 import { join } from "path";
-import { APIStreamChatType, APIWatchability, StreamChatType, Watchability } from "./types";
+import {
+    APIStreamChatType,
+    APIWatchability,
+    StreamChatType,
+    Watchability,
+} from "./types";
 
 export const BASE_URL = "https://live.fc2.com/";
 
@@ -16,7 +21,6 @@ export function toNumber(boolean?: boolean): number {
     return Number(boolean);
 }
 
-
 export const WATCHABILITY_LOOKUP: Record<APIWatchability, Watchability> = {
     [APIWatchability.Unlimited]: Watchability.NoLoginRequired,
     [APIWatchability.LoginRequired]: Watchability.LoginRequired,
@@ -24,8 +28,11 @@ export const WATCHABILITY_LOOKUP: Record<APIWatchability, Watchability> = {
 };
 
 // currently unused
-export const STREAM_CHAT_TYPE_LOOKUP: Record<APIStreamChatType, StreamChatType> = {
+export const STREAM_CHAT_TYPE_LOOKUP: Record<
+    APIStreamChatType,
+    StreamChatType
+> = {
     [APIStreamChatType.Open]: StreamChatType.Open,
     [APIStreamChatType.MultiPerson]: StreamChatType.MultiPerson,
     [APIStreamChatType.OneToOne]: StreamChatType.OneOnOne,
-}
+};
