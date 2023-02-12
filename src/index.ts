@@ -10,8 +10,11 @@ export {
 } from "./ChannelManager"
 
 export {
-    FC2ApiError
-} from "./FC2ApiError";
+    FC2ApiError,
+    FC2ClientError,
+    FC2Error,
+    FC2APITypeError,
+} from "./errors";
 
 export {
     APIChannelListResponse,
