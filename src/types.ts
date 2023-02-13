@@ -68,7 +68,7 @@ export interface Channel {
     userId: string;
     title: string;
     info: string;
-    categoryId: number;
+    categoryId: string;
     categoryName: string;
 
     adult: boolean;
@@ -78,7 +78,7 @@ export interface Channel {
     viewers: number;
     image: string;
     isApp: boolean;
-    fee: boolean;
+    isPaid: boolean;
     interval: number;
     start: Date;
 }
