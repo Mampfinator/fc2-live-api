@@ -129,7 +129,6 @@ class ChannelManager extends eventemitter3_1.default {
             ]);
             const wentOffline = new Set([...this.liveIds].filter((id) => !channels.has(id)));
             const wentLive = new Set([...channels].filter((id) => !this.liveIds.has(id)));
-            console.debug(`Total: ${channels.size} (${safeChannels.length} safe; ${adultChannels.length} adult) - Went Live: ${wentLive.size}; Went Offline: ${wentOffline.size}.`);
             return {
                 live: [...wentLive],
                 offline: [...wentOffline],

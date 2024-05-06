@@ -13,10 +13,9 @@ export declare class FC2ApiError extends Error {
  * Error that originates from within the client.
  */
 export declare class FC2ClientError<TError = any> extends Error {
-    readonly endpoint?: string;
     readonly reason: string;
     readonly details: TError;
-    constructor(reason: string, details: TError, endpoint?: string);
+    constructor(reason: string, details: TError);
 }
 /**
  * Triggered when the API returns an unexpected type. Please [create an Issue](https://github.com/Mampfinator/fc2-live-api/issues/new) should this ever happen.

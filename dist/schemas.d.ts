@@ -27,7 +27,7 @@ export declare const CHANNEL_SCHEMA: z.ZodObject<{
     deny_country_flg: z.ZodString;
     panorama: z.ZodNumber;
     tid: z.ZodNumber;
-}, "strict", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     id: string;
     bid: string;
     fc2id: number;
@@ -113,7 +113,7 @@ export declare const CHANNEL_LIST_SCHEMA: z.ZodObject<{
         deny_country_flg: z.ZodString;
         panorama: z.ZodNumber;
         tid: z.ZodNumber;
-    }, "strict", z.ZodTypeAny, {
+    }, "strip", z.ZodTypeAny, {
         id: string;
         bid: string;
         fc2id: number;
@@ -173,7 +173,7 @@ export declare const CHANNEL_LIST_SCHEMA: z.ZodObject<{
     is_adult: z.ZodNumber;
     link: z.ZodString;
     time: z.ZodNumber;
-}, "strict", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     channel: {
         id: string;
         bid: string;
@@ -323,11 +323,13 @@ export declare const MEMBER_SCHEMA: z.ZodObject<{
         video_stereo3d: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
         video_mapping: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
         video_horizontal_view: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-    }, "strict", z.ZodTypeAny, {
+        total: z.ZodNumber;
+    }, "strip", z.ZodTypeAny, {
         title: string;
         image: string;
         category: string;
         count: number;
+        total: number;
         amount: number;
         interval: number;
         start: number;
@@ -382,6 +384,7 @@ export declare const MEMBER_SCHEMA: z.ZodObject<{
         image: string;
         category: string;
         count: number;
+        total: number;
         amount: number;
         interval: number;
         start: number;
@@ -441,7 +444,7 @@ export declare const MEMBER_SCHEMA: z.ZodObject<{
         sex: z.ZodString;
         icon: z.ZodString;
         image: z.ZodString;
-    }, "strict", z.ZodTypeAny, {
+    }, "strip", z.ZodTypeAny, {
         fc2id: string;
         name: string;
         image: string;
@@ -460,12 +463,13 @@ export declare const MEMBER_SCHEMA: z.ZodObject<{
         age: number;
         icon: string;
     }>;
-}, "strict", z.ZodTypeAny, {
+}, "strip", z.ZodTypeAny, {
     channel_data: {
         title: string;
         image: string;
         category: string;
         count: number;
+        total: number;
         amount: number;
         interval: number;
         start: number;
@@ -532,6 +536,7 @@ export declare const MEMBER_SCHEMA: z.ZodObject<{
         image: string;
         category: string;
         count: number;
+        total: number;
         amount: number;
         interval: number;
         start: number;
@@ -678,11 +683,13 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             video_stereo3d: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
             video_mapping: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
             video_horizontal_view: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-        }, "strict", z.ZodTypeAny, {
+            total: z.ZodNumber;
+        }, "strip", z.ZodTypeAny, {
             title: string;
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -737,6 +744,7 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -796,7 +804,7 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             sex: z.ZodString;
             icon: z.ZodString;
             image: z.ZodString;
-        }, "strict", z.ZodTypeAny, {
+        }, "strip", z.ZodTypeAny, {
             fc2id: string;
             name: string;
             image: string;
@@ -815,12 +823,13 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             age: number;
             icon: string;
         }>;
-    }, "strict", z.ZodTypeAny, {
+    }, "strip", z.ZodTypeAny, {
         channel_data: {
             title: string;
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -887,6 +896,7 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -956,6 +966,7 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1025,6 +1036,7 @@ export declare const MEMBER_RESPONSE_OK_SCHEMA: z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1182,11 +1194,13 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             video_stereo3d: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
             video_mapping: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
             video_horizontal_view: z.ZodUnion<[z.ZodString, z.ZodNumber]>;
-        }, "strict", z.ZodTypeAny, {
+            total: z.ZodNumber;
+        }, "strip", z.ZodTypeAny, {
             title: string;
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1241,6 +1255,7 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1300,7 +1315,7 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             sex: z.ZodString;
             icon: z.ZodString;
             image: z.ZodString;
-        }, "strict", z.ZodTypeAny, {
+        }, "strip", z.ZodTypeAny, {
             fc2id: string;
             name: string;
             image: string;
@@ -1319,12 +1334,13 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             age: number;
             icon: string;
         }>;
-    }, "strict", z.ZodTypeAny, {
+    }, "strip", z.ZodTypeAny, {
         channel_data: {
             title: string;
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1391,6 +1407,7 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1460,6 +1477,7 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;
@@ -1529,6 +1547,7 @@ export declare const MEMBER_RESPONSE_SCHEMA: z.ZodUnion<[z.ZodObject<{
             image: string;
             category: string;
             count: number;
+            total: number;
             amount: number;
             interval: number;
             start: number;

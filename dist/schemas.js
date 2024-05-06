@@ -32,7 +32,7 @@ exports.CHANNEL_SCHEMA = zod_1.z
     panorama: zod_1.z.number(),
     tid: zod_1.z.number(),
 })
-    .strict();
+    .strip();
 exports.CHANNEL_LIST_SCHEMA = zod_1.z
     .object({
     channel: zod_1.z.array(exports.CHANNEL_SCHEMA),
@@ -40,7 +40,7 @@ exports.CHANNEL_LIST_SCHEMA = zod_1.z
     link: zod_1.z.string().url(),
     time: zod_1.z.number(),
 })
-    .strict();
+    .strip();
 exports.MEMBER_SCHEMA = zod_1.z
     .object({
     channel_data: zod_1.z
@@ -102,8 +102,9 @@ exports.MEMBER_SCHEMA = zod_1.z
             zod_1.z.string().regex(/\d+/),
             zod_1.z.number(),
         ]),
+        total: zod_1.z.number(),
     })
-        .strict(),
+        .strip(),
     profile_data: zod_1.z
         .object({
         userid: zod_1.z.coerce.string(),
@@ -115,9 +116,9 @@ exports.MEMBER_SCHEMA = zod_1.z
         icon: zod_1.z.string(),
         image: zod_1.z.string(),
     })
-        .strict(),
+        .strip(),
 })
-    .strict();
+    .strip();
 exports.MEMBER_RESPONSE_OK_SCHEMA = zod_1.z.object({
     status: zod_1.z.number().min(1).max(1),
     data: exports.MEMBER_SCHEMA,
@@ -127,6 +128,6 @@ exports.MEMBER_RESPONSE_ERROR_SCHEMA = zod_1.z.object({
     msg: zod_1.z.string(),
 });
 exports.MEMBER_RESPONSE_SCHEMA = zod_1.z.union([
-    exports.MEMBER_RESPONSE_OK_SCHEMA,
-    exports.MEMBER_RESPONSE_ERROR_SCHEMA,
+    exports.MEMBER_RESPONSE_OK_SCHEMA.strip(),
+    exports.MEMBER_RESPONSE_ERROR_SCHEMA.strip(),
 ]);
