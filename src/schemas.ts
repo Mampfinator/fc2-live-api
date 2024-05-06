@@ -30,7 +30,7 @@ export const CHANNEL_SCHEMA = z
         panorama: z.number(),
         tid: z.number(),
     })
-    .strict();
+    .strip();
 
 export const CHANNEL_LIST_SCHEMA = z
     .object({
@@ -39,7 +39,7 @@ export const CHANNEL_LIST_SCHEMA = z
         link: z.string().url(),
         time: z.number(),
     })
-    .strict();
+    .strip();
 
 export const MEMBER_SCHEMA = z
     .object({
@@ -105,8 +105,9 @@ export const MEMBER_SCHEMA = z
                     z.string().regex(/\d+/),
                     z.number(),
                 ]),
+                total: z.number(),
             })
-            .strict(),
+            .strip(),
         profile_data: z
             .object({
                 userid: z.coerce.string(),
@@ -118,9 +119,9 @@ export const MEMBER_SCHEMA = z
                 icon: z.string(),
                 image: z.string(),
             })
-            .strict(),
+            .strip(),
     })
-    .strict();
+    .strip();
 
 export const MEMBER_RESPONSE_OK_SCHEMA = z.object({
     status: z.number().min(1).max(1),
@@ -133,6 +134,6 @@ export const MEMBER_RESPONSE_ERROR_SCHEMA = z.object({
 });
 
 export const MEMBER_RESPONSE_SCHEMA = z.union([
-    MEMBER_RESPONSE_OK_SCHEMA,
-    MEMBER_RESPONSE_ERROR_SCHEMA,
+    MEMBER_RESPONSE_OK_SCHEMA.strip(),
+    MEMBER_RESPONSE_ERROR_SCHEMA.strip(),
 ]);

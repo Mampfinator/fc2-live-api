@@ -4,7 +4,7 @@ import { request } from "undici";
 import { ZodError } from "zod";
 import { FC2ApiError, FC2ClientError, FC2Error } from "./errors";
 import { FC2Client } from "./FC2Client";
-import { MEMBER_RESPONSE_SCHEMA } from "./schemas";
+import { CHANNEL_LIST_SCHEMA, MEMBER_RESPONSE_SCHEMA } from "./schemas";
 import {
     APIChannelListResponse,
     APIWatchability,
@@ -173,7 +173,9 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
                 "allchannellist.php",
             ].filter(Boolean) as string[])
         );
-        return await request(url).then((res) => res.body.json());
+        return await request(url)
+            .then((res) => res.body.json())
+            .then(body => CHANNEL_LIST_SCHEMA.parse(body));
     }
 
     /**
@@ -196,10 +198,6 @@ export class ChannelManager extends EventEmitter3<ChannelEvents> {
         );
         const wentLive = new Set(
             [...channels].filter((id) => !this.liveIds.has(id))
-        );
-
-        console.debug(
-            `Total: ${channels.size} (${safeChannels.length} safe; ${adultChannels.length} adult) - Went Live: ${wentLive.size}; Went Offline: ${wentOffline.size}.`
         );
 
         return {
